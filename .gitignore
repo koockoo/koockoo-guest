@@ -1,0 +1,14 @@
+build/
+ext/
+.sencha/
+bootstrap.json
+bootstrap.js
+bootstrap.css
+build.xml
+/target
+/build
+
+*.prefs
+.project
+.classpath
+.idea/

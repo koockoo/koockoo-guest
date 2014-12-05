@@ -1,0 +1,30 @@
+.login {
+
+  padding: 0px;
+
+  .login-form {
+    padding: 15px;
+  }
+
+  .password {
+    margin-top: 10px;
+    margin-bottom: 0;
+    width: 300px;
+  }
+
+  .login-name {
+    margin-bottom: 0;
+    width: 300px;
+  }
+
+  .hint {
+    margin-bottom: 0;
+
+    .x-form-display-field {
+      height: auto;
+      margin: 0;
+      font-size: 9px;
+      color: navy;
+    }
+  }
+}
