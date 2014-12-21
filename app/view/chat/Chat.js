@@ -21,7 +21,7 @@ Ext.define('GUEST.view.chat.Chat', {
     columnDate: 'Date',
     buttonSend: 'Send',
 
-    bodyPadding: 10,
+    bodyPadding: 0,
     bind: '{title}',
 
     layout: {
@@ -80,17 +80,7 @@ Ext.define('GUEST.view.chat.Chat', {
                         {
                             text: me.columnDate,
                             dataIndex: 'utcDateTime',
-                            renderer: function (utcDateTime) {
-                                var date = Ext.Date.parse(utcDateTime, "c");
-                                var now = new Date();
-                                var d = Ext.Date.clearTime(now, true);
-                                var notime = Ext.Date.clearTime(date, true).getTime();
-
-                                if (notime === d.getTime()) {
-                                    return Ext.Date.format(date, 'H:i');
-                                }
-                                return Ext.Date.format(date, 'Y/m/d H:i');
-                            },
+                            renderer: me.formatDate,
                             width: 200
                         }
                     ]
@@ -99,6 +89,7 @@ Ext.define('GUEST.view.chat.Chat', {
                     xtype: 'form',
                     layout: 'fit',
                     border: true,
+                    height: 150,
                     items: [
                         {
                             xtype: 'htmleditor',
@@ -130,6 +121,18 @@ Ext.define('GUEST.view.chat.Chat', {
         });
 
         me.callParent(arguments);
+    },
+
+    formatDate: function (utcDateTime) {
+        var date = Ext.Date.parse(utcDateTime, "c");
+        var now = new Date();
+        var d = Ext.Date.clearTime(now, true);
+        var notime = Ext.Date.clearTime(date, true).getTime();
+
+        if (notime === d.getTime()) {
+            return Ext.Date.format(date, 'H:i');
+        }
+        return Ext.Date.format(date, 'Y/m/d H:i');
     }
 
 });
