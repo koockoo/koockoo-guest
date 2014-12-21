@@ -12,7 +12,7 @@ Ext.define('GUEST.view.chat.ChatController', {
 
     scroll: function () {
         // scroll to the bottom
-        var ms = this.getViewModel().getStore('messages');
+        var ms = Ext.getStore('Message');
         var grid = this.lookupReference('chat-grid');
         grid.getView().focusRow(ms.count() - 1);
         grid.getEl().down('.x-grid-view').scroll('bottom', 200, true);
@@ -30,9 +30,7 @@ Ext.define('GUEST.view.chat.ChatController', {
         textarea.setValue("");
 
         // scroll to the bottom
-        var grid = this.lookupReference('chat-grid');
-        grid.getView().focusRow(ms.count() - 1);
-        grid.getEl().down('.x-grid-view').scroll('bottom', 200, true);
+        this.scroll();
         textarea.focus();
 
         // publish

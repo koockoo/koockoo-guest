@@ -9,7 +9,8 @@ Ext.define('GUEST.controller.Root', {
         'GUEST.view.start.Start',
         'GUEST.view.chat.Chat',
         'GUEST.view.chat.ChatController',
-        'GUEST.view.lang.LangController'
+        'GUEST.view.lang.LangController',
+        'Ext.direct.*'
     ],
 
     loadingText: 'Loading...',
@@ -127,5 +128,64 @@ Ext.define('GUEST.controller.Root', {
         console.log("show the chat UI");
         this.login.destroy();
         this.showChat();
+        this.startPollingMessages();
+    },
+
+    startPollingMessages: function () {
+        var me = this;
+        var messagePoll = new Ext.direct.PollingProvider({
+            id: 'MessagePolling',
+            interval: 30000,
+            type: 'polling',
+            url: me.getUrl(),
+            listeners: {
+                scope: me,
+                data: me.onReceiveMessages,
+                beforepoll: function (provider, eOpts) {
+                    provider.url = me.getUrl();
+                }
+            }
+        });
+        Ext.direct.Manager.addProvider(messagePoll);
+    },
+
+    onReceiveMessages: function(provider, event) {
+        console.log("response received for messages");
+        var mStore = Ext.getStore('Message');
+        var result  = mStore.getProxy().getReader().read(event.data);
+        var records = result.getRecords();
+        if (result.getSuccess()) {
+            console.log("total: " + result.getTotal());
+            mStore.add(records);
+            this.viewport.controller.scroll();
+        }
+    },
+
+    getUrl: function () {
+        var aStore = Ext.getStore('Auth');
+        var msStore = Ext.getStore('Message');
+        var guest = aStore.first().get('guest');
+        var lastId = null;
+
+        if (msStore.count() > 0) {
+            msStore.each(function (message, idx) {
+                if (message.get("authorRef") != guest.id) {
+                    lastId = message.id;
+                }
+            });
+        }
+
+        var url = "";
+        if (lastId != null) {
+            url = koockoo.service.message.readByGuest.url;
+            url = Ext.String.format(url, guest.id, lastId);
+        } else {
+            url = koockoo.service.message.readAllByGuest.url;
+            url = Ext.String.format(url, guest.id);
+        }
+        console.log("start polling messages " + url);
+        return url;
     }
+
+
 });
