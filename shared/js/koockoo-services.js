@@ -151,9 +151,9 @@ var koockoo = koockoo || {};
 
         url = self.baseUrl + "/message";
         koockoo.service.message = {
-            postByGuest: {url: url + "/guest/{0}", type: 'POST'},
-            readByGuest: {url: url + "/guest/{0}/gt/{1}", type: 'GET'},
-            readAllByGuest: {url: url + "/guest/{0}", type: 'GET'},
+            postByGuest: {url: url + "/guest/{0}/chatroom/{1}", type: 'POST'},
+            readByGuest: {url: url + "/guest/{0}/chatroom/{1}/gt/{2}", type: 'GET'},
+            readAllByGuest: {url: url + "/guest/{0}/chatroom/{1}", type: 'GET'},
             postByOperator: {url: url + "/operator/{0}/chatroom/{1}", type: 'POST'},
             readByOperator: {url: url + "/operator/{0}/gt/{1}", type: 'GET'},
             readAllByOperator: {url: url + "/operator/{0}", type: 'GET'}
