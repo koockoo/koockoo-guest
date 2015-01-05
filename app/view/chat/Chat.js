@@ -101,8 +101,11 @@ Ext.define('GUEST.view.chat.Chat', {
                             enableAlignments: false,
                             enableColors: true,
                             enableFontSize: false,
-                            enableFormat: true
+                            enableFormat: true,
                             //                    enableFont		 : false
+                            listeners: {
+                                keyup: 'onMessageKeyPress'
+                            }
                         }
                     ],
                     buttons: [

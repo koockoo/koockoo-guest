@@ -37,6 +37,10 @@ Ext.define('GUEST.view.chat.ChatController', {
         this.postMessage(msg);
     },
 
+    onMessageKeyPress: function(target, event, opts) {
+        console.log("keypress");
+    },
+
     postMessage: function (message) {
         var url = koockoo.service.message.postByGuest.url;
         url = Ext.String.format(url, message.get("authorRef"), message.get("chatRoomId"));
